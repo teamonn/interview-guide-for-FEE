@@ -705,15 +705,17 @@ function App() {
 
 浏览器第一次请求
 
-![浏览器第一次请求]
+![webcache_request_first]
 
 浏览器再次请求时
 
-![浏览器再次请求]
+![webcache_request_again]
 
 HTTP整体缓存流程
 
-![HTTP缓存流程]
+![webcache]
+
+![webcache](./image/webcache.jpg)
 
 #### 2. 如何全链路优化应用访问性能？
 
@@ -865,7 +867,7 @@ if(reg.test(sQuery))
 
 
 
-[浏览器第一次请求]:./image/webcache_request_first.jpg
-[浏览器再次请求]:./image/webcache_request_again.jpg
-[HTTP缓存流程]:./image/webcache.jpg
+[webcache_request_first]:./image/webcache_request_first.jpg
+[webcache_request_again]:./image/webcache_request_again.jpg
+[webcache]:./image/webcache.jpg
 
