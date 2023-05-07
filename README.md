@@ -865,7 +865,7 @@ if(reg.test(sQuery))
 
 
 
-[浏览器第一次请求]:./image/浏览器第一次请求.png
-[浏览器再次请求]:./image/浏览器再次请求.png
-[HTTP缓存流程]:./image/HTTP缓存流程.png
+[浏览器第一次请求]:./image/webcache_request_first.png
+[浏览器再次请求]:./image/webcache_request_again.png
+[HTTP缓存流程]:./image/webcache.png
 
