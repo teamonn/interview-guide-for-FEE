@@ -715,7 +715,7 @@ HTTP整体缓存流程
 
 ![webcache]
 
-![webcache](./image/webcache.jpg?raw=true)
+![webcache](image/webcache.jpg?raw=true)
 
 #### 2. 如何全链路优化应用访问性能？
 
@@ -867,7 +867,7 @@ if(reg.test(sQuery))
 
 
 
-[webcache_request_first]:./image/webcache_request_first.jpg?raw=true
-[webcache_request_again]:./image/webcache_request_again.jpg?raw=true
-[webcache]:./image/webcache.jpg?raw=true
+[webcache_request_first]:image/webcache_request_first.jpg?raw=true
+[webcache_request_again]:image/webcache_request_again.jpg?raw=true
+[webcache]:image/webcache.jpg?raw=true
 
