@@ -715,7 +715,7 @@ HTTP整体缓存流程
 
 ![webcache]
 
-![webcache](./image/webcache.jpg)
+![webcache](./image/webcache.jpg?raw=true)
 
 #### 2. 如何全链路优化应用访问性能？
 
