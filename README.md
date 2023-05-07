@@ -867,7 +867,7 @@ if(reg.test(sQuery))
 
 
 
-[webcache_request_first]:./image/webcache_request_first.jpg
-[webcache_request_again]:./image/webcache_request_again.jpg
-[webcache]:./image/webcache.jpg
+[webcache_request_first]:./image/webcache_request_first.jpg?raw=true
+[webcache_request_again]:./image/webcache_request_again.jpg?raw=true
+[webcache]:./image/webcache.jpg?raw=true
 
