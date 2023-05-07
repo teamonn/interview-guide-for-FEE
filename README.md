@@ -715,8 +715,6 @@ HTTP整体缓存流程
 
 ![webcache]
 
-![webcache](image/webcache.jpg?raw=true)
-
 #### 2. 如何全链路优化应用访问性能？
 
 #### 3. svg、base64 格式图片跟 png、jpg 等格式有啥不同？
