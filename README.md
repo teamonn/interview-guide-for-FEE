@@ -609,6 +609,30 @@ function sum () {
 会阻塞，但是影响并不大（通过 Event Loop）。
 
 当 V8 引擎开始进行垃圾回收时，它会暂停 JavaScript 的执行，然后遍历内存中的对象并标记活动对象。在标记阶段完成后，V8 可能会在执行其他任务之前将控制权交还给 JavaScript 运行环境。这样就可以在多次垃圾回收过程中分摊执行时间，减小垃圾回收对 JavaScript 执行的影响。此外，V8 还支持增量标记和清除，即将标记和清除操作分解成多个较小的步骤执行，以便在执行每个步骤后允许 JavaScript 代码执行。这些技术都有助于 V8 避免因 GC 导致的长时间阻塞，从而提高了页面的响应速度和流畅度。
+
+**9. 请手动实现一个 debounce 防抖函数。**
+
+参考代码：
+
+``` js
+function debounce(func, timeout = 300){
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        func.apply(this, args);
+    }, timeout);
+  };
+}
+function saveInput(){
+  console.log('Saving data');
+}
+const processChange = debounce(saveInput);
+processChange();
+processChange();
+processChange(); // processChange 执行多次也只有一次机会
+```
+
 ## 前端存储
 
 **问题：前端存储有哪些方式？cookie 跟 indexDB 有啥区别？是否持久化？**
@@ -1662,6 +1686,31 @@ console.log(arr); // ['1.2.3', '2.2.3', '2.10', '9.99.9.2', '10.0.10', '10.1.0']
 
 该函数也先将版本号分割为数字数组，并使用 parseInt 方法将字符串转换为整数。不同的是，该函数在比较数字大小时，如果前面的数字相等，则继续比较后面的数字，直到找到差异或达到末尾。如果一个版本号长度较短，则其后面的数字默认为0。最终返回排序后的新数组。
 
+**3. 求一个整数数组中任意三个数的最大乘积（可能未负整数）。**
+
+这个题目看起来复杂，可能第一感觉要用暴力破解（3 个 for 循环），但是仔细想一想，把情况分门别类其实就只有两种最大乘积的方案。
+
+参考实现：
+<details><summary>点击展开</summary>
+<p>
+
+``` js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maximumProduct = function(nums) {
+    let newNums = nums.sort((a, b) => a - b);
+    const len = newNums.length;
+    const nums1 = newNums[len - 1] * newNums[len - 2] * newNums[len - 3]
+    const nums2 = newNums[0] * newNums[1] * newNums[len - 1]
+    return Math.max(nums1, nums2);
+};
+```
+
+</p>
+</details>
+
 ## 数据结构
 **1. 实现一个函数 sortDependencyTree，将以下数据结构按照依赖关系整理成一个符合依赖关系规则的新数组。（ 如 `A: ['B']` 表示 A 依赖于 B）**
 
@@ -1907,6 +1956,7 @@ function sortDependencyTree (tree) {
 - 源码阅读及方案查找：github
 - 问题查找：Stack Overflow + github issue
 - 变量取名：CodeLF
+- 番茄工作法：用 mac 快捷指令实现番茄钟管理时间
 
 ## 技术视野
 
