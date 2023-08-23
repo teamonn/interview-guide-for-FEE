@@ -412,6 +412,59 @@ console.log('12');
 - 构造函数中使用 `this` 关键字时，`this` 指向新创建的对象实例
 - 箭头函数本身没有 `this` 绑定，它的 `this` 是继承自外层作用域的
 
+<details><summary>点击展开</summary>
+<p>
+
+```js
+var obj = {
+  foo: function () { console.log(this.bar) },
+  bar: 1
+};
+
+var foo = obj.foo;
+var bar = 2;
+
+obj.foo() // 1
+foo() // 2
+```
+``` js
+var name = 'a'
+function an(){
+    var name = 'b'
+    console.log(this.name);
+}
+an();
+var obj = {
+    name:'c',
+    do: an
+}
+obj.do();
+var obj2 = {
+    name:'d',
+    do: an
+}
+obj.do.bind(obj2)();
+// a c d
+```
+```js
+function Person () {
+    this.name = "Tiny Colder";
+    var age = 22;
+    window.age = 22;
+}
+var p = new Person();
+console.log(p.name); // Tiny Colder
+console.log(p.age); // undefined
+console.log(window.age); // 22
+```
+</p>
+</details>
+
+值得注意的是：
+1. this 指向的永远是个对象，而构造函数是个函数，所以 this 蒙上眼睛指也指不到构造函数里去
+2. new 一个构造函数的本质：`先创建一个 Object 实例，然后将该构造函数的执行对象赋给新生成的对象，再执行这个构造函数中的代码，最后返回这个生成的对象实例`
+3. 
+
 **5. 什么是闭包？**
 
 闭包：闭包是指有权访问另一个函数作用域中的变量的函数。
@@ -598,10 +651,11 @@ function sum () {
 
 常见内存泄露的几个地方：
 - 闭包使用不当引起内存泄漏
-- 全局变量
+- 全局变量声明了却忘了使用
 - 遗漏了清除的节点：dom 树上清除了，但 js 还持有它的引用
 - 控制台的打印
 - 遗忘清除的定时器
+- 循环引用
 - 集合数据类型？
 
 **8. v8 垃圾回收（GC）会不会阻塞页面渲染？**
