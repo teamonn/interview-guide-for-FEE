@@ -463,7 +463,6 @@ console.log(window.age); // 22
 值得注意的是：
 1. this 指向的永远是个对象，而构造函数是个函数，所以 this 蒙上眼睛指也指不到构造函数里去
 2. new 一个构造函数的本质：`先创建一个 Object 实例，然后将该构造函数的执行对象赋给新生成的对象，再执行这个构造函数中的代码，最后返回这个生成的对象实例`
-3. 
 
 **5. 什么是闭包？**
 
@@ -658,33 +657,57 @@ function sum () {
 - 循环引用
 - 集合数据类型？
 
-**8. v8 垃圾回收（GC）会不会阻塞页面渲染？**
+**9. v8 垃圾回收（GC）会不会阻塞页面渲染？**
 
 会阻塞，但是影响并不大（通过 Event Loop）。
 
 当 V8 引擎开始进行垃圾回收时，它会暂停 JavaScript 的执行，然后遍历内存中的对象并标记活动对象。在标记阶段完成后，V8 可能会在执行其他任务之前将控制权交还给 JavaScript 运行环境。这样就可以在多次垃圾回收过程中分摊执行时间，减小垃圾回收对 JavaScript 执行的影响。此外，V8 还支持增量标记和清除，即将标记和清除操作分解成多个较小的步骤执行，以便在执行每个步骤后允许 JavaScript 代码执行。这些技术都有助于 V8 避免因 GC 导致的长时间阻塞，从而提高了页面的响应速度和流畅度。
 
-**9. 请手动实现一个 debounce 防抖函数。**
+**10. 事件防抖 和 事件节流 的区别，请手动实现一个 debounce 防抖函数和一个 throttle 节流函数。**
+
+> 【事件防抖】的核心思想是，在事件被触发n秒后再执行回调，如果在这n秒内又被触发，则重新计时。这意味着只有当事件停止触发一段时间后，才执行一次函数。防抖常用于输入框校验、搜索框搜索等功能，避免因为用户的连续输入而频繁发送请求。
+>
+> （间隔周期内执行多次，最终也只会执行一次）
+
+> 【事件节流】的核心思想是，在一定时间内，只执行一次函数。即使在这段时间内事件被触发多次，也只会执行一次。节流会强制函数以固定的频率执行，这对于控制函数调用的次数非常有效。节流常用于滚动事件、浏览器缩放等，确保在滚动过程中不会发生大量的计算或DOM操作。
+>
+> （执行频率再快，最终也只会按照指定频率依次执行）
 
 参考代码：
 
 ``` js
 function debounce(func, timeout = 300){
-  let timer;
+  let timer = null; // 维护一个计时器 timer
   return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
+    timer && clearTimeout(timer); // 如果事件再次触发，则清除上次的定时器并重新计时
+    timer = setTimeout(() => { // 设置新的定时器，使事件间隔指定时间后执行
         func.apply(this, args);
     }, timeout);
   };
 }
-function saveInput(){
-  console.log('Saving data');
+function handle(){
+  console.log('防抖成功');
 }
-const processChange = debounce(saveInput);
-processChange();
-processChange();
-processChange(); // processChange 执行多次也只有一次机会
+// 绑定防抖函数
+window.addEventListener('click', debounce(handle, 1000)); // 即使页面点击多次也不会同时打印 log，而是间隔一个时间段打印一次
+```
+
+``` js
+function throttle(fn, delay = 300) {
+  let lastTime = 0;
+  return function() {
+    const nowTime = Date.now();
+    if (nowTime - lastTime > delay) {
+      fn.apply(this, arguments);
+      lastTime = nowTime;
+    }
+  };
+}
+function handle(){
+  console.log('节流成功');
+}
+// 绑定防抖函数
+window.addEventListener('scroll', throttle(handle, 1000)); // 即使页面快速连续滚动多次也不会打印所有次数的 log，而是每次打印都是在等待一个完整的间隔周期后才执行的（实际打印次数会减少）
 ```
 
 ## 前端存储
