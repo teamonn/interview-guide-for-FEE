@@ -153,6 +153,24 @@ css 解析不阻塞 dom 解析，但是阻塞 dom 树渲染：
 正因为 css 阻塞 js，js 又阻塞 dom 渲染，所以 有时候才将 js脚本放到页面底部去加载。
 
 可参考：https://juejin.cn/post/6844903667733118983
+
+**9. 什么是 BFC？ 创建一个 BFC 的方式有哪些？**
+
+在前端开发中，块级格式化上下文（Block Formatting Context），简称 BFC。
+
+创建 BFC 的目的通常是为了控制元素的布局和相互之间的影响，比如防止外边距折叠、清除浮动等。
+
+创建 BFC 的方式有：
+1. 设置浮动
+2. 设置绝对定位（position 属性为 absolute 或 fixed）
+3. 设置 overflow 属性（不为 visible）
+4. 设置 display 属性（为 inline-block、table-cell、table-caption、flex、inline-flex）
+5. 设置表格布局：（display 属性设置为 table 或 inline-table）
+6. Flex 布局：将元素的 display 属性设置为 flex 或 inline-flex
+7. Grid 布局：将元素的 display 属性设置为 grid 或 inline-grid
+8. Contain 属性：给元素设置 contain 属性为 layout、content 或 paint
+9. 多列布局：给元素设置 column-count 或 column-width 属性，使其变为多列布局
+
 ## javascript
 
 **1. promise 的实现原理是什么？讲一下链式调用的过程。**
