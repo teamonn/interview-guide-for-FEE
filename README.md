@@ -967,6 +967,19 @@ function App() {
 
 **9. react hooks 中，setState 的值是同步修改还是异步修改的？谈谈你的理解。**
 
+**10. 说说React Router有几种模式？实现原理是什么？**
+
+两种模式：
+- hash 模式：在url后面加上#，如http://127.0.0.1:5500/home/#/page1
+- history 模式：允许操作浏览器的曾经在标签页或者框架里访问的会话历史记录
+
+【hash 模式原理】
+
+hash(#) 值改变，触发全局 window 对象上的 hashchange 事件。所以 hash 模式路由就是利用 hashchange 事件监听 URL 的变化，从而进行 DOM 操作来模拟页面跳转。
+
+【history 模式原理】
+1. history 提供了 pushState 和 replaceState 两个方法，这两个方法改变 URL 的 path 部分不会引起页面刷新
+2. 通过 popchange 事件监听 URL 的改变。需要注意只在通过浏览器导航栏的前进后退改变 URL 时会触发popstate事件，通过\<a>标签和pushState/replaceState不会触发popstate方法。但我们可以拦截\<a>标签的点击事件和pushState/replaceState的调用来检测 URL 变化，也是可以达到监听 URL 的变化，相对hashchange显得略微复杂
 
 ## Vue
 
