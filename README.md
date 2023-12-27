@@ -2029,6 +2029,40 @@ var maximumProduct = function(nums) {
 </p>
 </details>
 
+**4. 使用 js 实现一个 LazyMan，要求如下：**
+> LazyMan("Hank")
+
+输出：`Hi! This is Hank!`
+
+> LazyMan("Hank").sleep(10).eat("dinner")
+
+输出:
+``` js
+Hi! This is Hank!
+// 等待10秒...
+Wake up after 10
+Eat dinner~
+```
+
+> LazyMan("Hank").eat("dinner").eat("supper")
+
+输出
+``` js
+Hi This is Hank!
+Eat dinner~
+Eat supper~
+```
+
+> LazyMan("Hank").sleepFirst(5).eat("supper")输出
+
+输出
+``` js
+// 等待5秒
+Wake up after 5
+Hi This is Hank!
+Eat supper~
+```
+
 ## 数据结构
 **1. 实现一个函数 sortDependencyTree，将以下数据结构按照依赖关系整理成一个符合依赖关系规则的新数组。（ 如 `A: ['B']` 表示 A 依赖于 B）**
 
