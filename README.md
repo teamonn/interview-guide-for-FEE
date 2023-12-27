@@ -774,12 +774,23 @@ function deepClone(obj) {
 }
 ```
 
-**12. 实现一个 once 函数，入参是 fn。只能在初次调用 once 才会执行 fn。**
+**12. 实现一个 once 函数，入参是 fn。要求 once 只能调用一次，只能在初次调用 once 才会执行 fn。**
 
-```js
-function once(fn) {
-    // 待补充
+``` js
+const once = (fn, ...args) => {
+    console.log('once hanle')
+    let called = false
+    return () => {
+        called = true
+        !called && fn.apply(this, args)
+    }
 }
+const fn = () => {
+    console.log('执行 fn')
+}
+const test = once(fn)
+test() // 执行 fn
+test() // 不会执行 fn
 ```
 
 **13. javascript 中，能 new 一个箭头函数吗？为什么？**
@@ -795,25 +806,7 @@ new 一个构造函数可以创建一个新对象，具体过程是：
 
 **14. 实现一个 once 函数，入参是一个函数，返回一个智能调用一次的函数。**
 
-``` js
-const once = (fn, ...args) => {
-    console.log('once hanle')
-    let sign = true
-    return () => {
-       
-        sign && fn.apply(this, args)
-        sign = !sign
-    }
-}
-const func = () => {
-    console.log('执行 func')
-}
-const test = once(func)
-test() // 执行 func
-test() // 不会执行 func
-```
 
-**15. 实现一个 lazyMan。**
 
 ## 前端存储
 
