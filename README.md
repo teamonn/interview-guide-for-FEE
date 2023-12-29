@@ -2052,6 +2052,169 @@ Hi This is Hank!
 Eat supper~
 ```
 
+参考代码 1：
+``` js
+class LazyManClass {
+  constructor(name) {
+    this.tasks = [];
+    const sayHi = () => {
+      console.log(`Hi! This is ${name}!`);
+      this.next();
+    };
+    this.tasks.push(sayHi);
+    setTimeout(() => {
+      this.next();
+    }, 0);
+  }
+
+  next() {
+    const task = this.tasks.shift();
+    task && task();
+  }
+
+  sleep(time) {
+    this._sleepWrapper(time, false);
+    return this;
+  }
+
+  sleepFirst(time) {
+    this._sleepWrapper(time, true);
+    return this;
+  }
+
+  _sleepWrapper(time, isFirst) {
+    const sleepTask = () => {
+      setTimeout(() => {
+        console.log(`Wake up after ${time}`);
+        this.next();
+      }, time * 1000);
+    };
+    if (isFirst) {
+      this.tasks.unshift(sleepTask);
+    } else {
+      this.tasks.push(sleepTask);
+    }
+  }
+
+  eat(food) {
+    const eatTask = () => {
+      console.log(`Eat ${food}~`);
+      this.next();
+    };
+    this.tasks.push(eatTask);
+    return this;
+  }
+}
+
+function LazyMan(name) {
+  return new LazyManClass(name);
+}
+
+```
+
+参考代码 2：
+``` js
+BFE.dev
+刷题练习 
+面试准备 
+公司
+问题列表
+讨论
+buy us
+a coffee
+
+中
+登录 / 注册 
+JavaScript 代码题
+130. 创建LazyMan()
+AI解答
+以下为ChatGPT自动生成的解答，正确与否请自行判断。
+BFE.devAI解答 - JavaScript 代码题
+130. 创建LazyMan()
+  
+function LazyMan(name, logFn) {
+  var actions = [];
+
+  function runActions() {
+    actions.forEach(function(action) {
+      action();
+    });
+  }
+
+  function sayHi() {
+    logFn(`Hi, I'm ${name}.`);
+  }
+
+  function eat(food) {
+    actions.push(function() {
+      logFn(`Eat ${food}.`);
+    });
+    return this;
+  }
+
+  function sleep(duration) {
+    actions.push(function() {
+      logFn(`(after ${duration} seconds)`);
+      setTimeout(function() {
+        logFn(`Wake up after ${duration} seconds.`);
+        runActions();
+      }, duration * 1000);
+    });
+    return this;
+  }
+
+  function sleepFirst(duration) {
+    actions.unshift(function() {
+      logFn(`(after ${duration} seconds)`);
+      setTimeout(function() {
+        logFn(`Wake up after ${duration} seconds.`);
+        runActions();
+      }, duration * 1000);
+    });
+    return this;
+  }
+
+  sayHi();
+
+  return {
+    eat: eat,
+    sleep: sleep,
+    sleepFirst: sleepFirst
+  };
+}
+
+// Usage
+LazyMan('Jack', console.log)
+// Hi, I'm Jack.
+
+LazyMan('Jack', console.log).eat('banana').eat('apple')
+// Hi, I'm Jack.
+// Eat banana.
+// Eat Apple.
+
+LazyMan('Jack', console.log).eat('banana').sleep(10).eat('apple').sleep(1)
+// Hi, I'm Jack.
+// Eat banana.
+// (after 10 seconds)
+// Wake up after 10 seconds.
+// Eat Apple.
+// (after 1 second)
+// Wake up after 1 second.
+
+LazyMan('Jack', console.log).eat('banana').sleepFirst(10).eat('apple').sleep(1)
+// (after 10 seconds)
+// Wake up after 10 seconds.
+// Hi, I'm Jack.
+// Eat banana
+// Eat apple
+// (after 1 second)
+// Wake up after 1 second.
+ads via Carbon
+Design and Development tips in your inbox. Every weekday.
+ADS VIA CARBON
+
+```
+
 ## 数据结构
 **1. 实现一个函数 sortDependencyTree，将以下数据结构按照依赖关系整理成一个符合依赖关系规则的新数组。（ 如 `A: ['B']` 表示 A 依赖于 B）**
 
