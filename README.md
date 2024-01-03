@@ -2114,24 +2114,6 @@ function LazyMan(name) {
 
 参考代码 2：
 ``` js
-BFE.dev
-刷题练习 
-面试准备 
-公司
-问题列表
-讨论
-buy us
-a coffee
-
-中
-登录 / 注册 
-JavaScript 代码题
-130. 创建LazyMan()
-AI解答
-以下为ChatGPT自动生成的解答，正确与否请自行判断。
-BFE.devAI解答 - JavaScript 代码题
-130. 创建LazyMan()
-  
 function LazyMan(name, logFn) {
   var actions = [];
 
