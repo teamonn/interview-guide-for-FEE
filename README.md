@@ -24,21 +24,21 @@
   - [高性能页面](#高性能页面)
   - [架构设计](#架构设计)
   - [监控预警](#监控预警)
-- [🎯 web 安全](#-web-安全)
+- [🚨 web 安全](#-web-安全)
   - [常见攻击分类](#常见攻击分类)
   - [安全防范](#安全防范)
 - [🧩 数据结构\&算法](#-数据结构算法)
   - [算法](#算法)
   - [数据结构](#数据结构)
 - [🤡 兼容](#-兼容)
-- [⚓️ 后端知识等](#️-后端知识等)
+- [🎯 后端知识等](#-后端知识等)
   - [node.js](#nodejs)
   - [linux运维](#linux运维)
 - [📚 项目管理](#-项目管理)
   - [项目经验](#项目经验)
   - [团队协作](#团队协作)
   - [敏捷Scrum](#敏捷scrum)
-- [个人成长](#个人成长)
+- [⚓️ 个人成长](#️-个人成长)
   - [学习方法](#学习方法)
   - [工作提效](#工作提效)
   - [技术视野](#技术视野)
@@ -1813,7 +1813,7 @@ qps含义：一秒内可以处理的请求数量称之为该服务器的 qps。
   - 用 console.time()和console.timeEnd() 函数来记录执行时间
   - 用process.memoryUsage()来查看当前内存使用情况
 
-# 🎯 web 安全
+# 🚨 web 安全
 ## 常见攻击分类
 
 **问题：web 安全中跟前端有关的攻击有哪些？是什么原理？**
@@ -2242,11 +2242,66 @@ function sortDependencyTree (tree) {
 </details>
 
 **2. 最大 K 问题**
+（可参考 leetcode）
+
+**3. DFS问题：用 Typescript 编写一个函数，找到一棵 path 树（每个节点都是一个路由 path）所有叶子节点的最终 path。每个叶子点的 path 由所有父级 path 拼接而成。tree 的结构如下：**
+``` js
+const tree = [{
+  path: '/aa',
+  children: [{
+    path: '/bb',
+    children: [{
+      path: '/cc'
+    },
+    {
+      path: '/xxx'
+    }]
+  }]
+}]
+// 最终函数应返回 ["/aa/bb/cc", "/aa/bb/xxx"] 
+```
+题眼：这个其实就是考察 DFS（深度优先遍历），然后将所有叶子节点的 path 收集到一个数组里返回即可。
+
+参考解法：
+``` js
+type NodeType = {
+  path: String
+  children: NodeType[]
+}
+
+/**
+ * DFS查找函数
+ * @param nodes 当前层级所有节点
+ * @param prefix 当前层级所有节点的父级前缀
+ * @returns 所有叶子节点的最终 path
+ */
+const dfs = (nodes: NodeType[], prefix: String = '') => {
+  let arr = [];
+  for (const treeNode of nodes) {
+    prefix = `${prefix}${treeNode.path}`;
+    if (treeNode.children) {
+      arr.push(...dfs(treeNode.children, prefix));
+    } else {
+      arr.push(prefix);
+      prefix = prefix.replace(`${treeNode.path}`, '');
+    }
+  }
+  return arr;
+}
+
+const list = dfs(tree);
+console.log(list);
+// 输出 ["/aa/bb/cc", "/aa/bb/xxx"]
+```
+
+Tips：
+- 想在线使用 Typescript 校验来调试代码，可直接在 [tslang](https://www.typescriptlang.org/play?#code/MYewdgzgLgBFBOBTRMC8MDaBvAUDGADgIZQAWAXDAOQD0RRVANHjMKQJYA2AJkmJdhb5iZSrQBG4pkNYcefAbnzLCJCtRrBgVGQF9mKpStWiNADws6VugLotbOBzigBPAigByIbogAqblHQjEXUAZQR2MABzFjYuXkR+GC8ff3cMO10cHBoaGAARADFQnFBIWG4AMwg0GAAKMG9ECEoUvwCMxkIkSvYzSnD4SKjaqioASjQAPhgjTkRYInh4WoyAbhZKkBW6sug4JEQ2mBBKmEafCEmjYR6+2oADABIsAjuzXReEZDaAOhDdA8Nip2Gc6t8jk1fnF5IlrjJ8Et4P8AK4QUh1X5YqoQcGHP4whJgLpvRC9MzjcbA5S6GCITgQFA3ZRI1Houqk8lUhHdMn3dCcvq-JAEThEYCIOrPLAQv4Ah5dMbc6z2FhIKAo+BgGBIjZZUrgfacdj7dA4vHIbl7EDzX6cEBROrG6BUoA) 页面上面编码
+- 想快速了解 DFS 和 BFS 的异同，可参考 [那些年，我们一起”追“的DFS和BFS \- 掘金](https://juejin.cn/post/7324501285625086015)
 
 # 🤡 兼容
 （暂未遇到，先占位后续再补充）
 
-# ⚓️ 后端知识等
+# 🎯 后端知识等
 
 ## node.js
 
@@ -2425,7 +2480,7 @@ function sortDependencyTree (tree) {
 3-3-5-5
 
 
-# 个人成长
+# ⚓️ 个人成长
 
 ## 学习方法
 
