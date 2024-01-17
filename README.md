@@ -2266,7 +2266,7 @@ const tree = [{
 ``` js
 type NodeType = {
   path: String
-  children: NodeType[]
+  children?: NodeType[]
 }
 
 /**
@@ -2275,8 +2275,8 @@ type NodeType = {
  * @param prefix 当前层级所有节点的父级前缀
  * @returns 所有叶子节点的最终 path
  */
-const dfs = (nodes: NodeType[], prefix: String = '') => {
-  let arr = [];
+const dfs = (nodes: NodeType[], prefix: String = ''): String[] => {
+  let arr: String = [];
   for (const treeNode of nodes) {
     prefix = `${prefix}${treeNode.path}`;
     if (treeNode.children) {
