@@ -2298,6 +2298,70 @@ Tips：
 - 想在线使用 Typescript 校验来调试代码，可直接在 [tslang](https://www.typescriptlang.org/play?#code/MYewdgzgLgBFBOBTRMC8MDaBvAUDGADgIZQAWAXDAOQD0RRVANHjMKQJYA2AJkmJdhb5iZSrQBG4pkNYcefAbnzLCJCtRrBgVGQF9mKpStWiNADws6VugLotbOBzigBPAigByIbogAqblHQjEXUAZQR2MABzFjYuXkR+GC8ff3cMO10cHBoaGAARADFQnFBIWG4AMwg0GAAKMG9ECEoUvwCMxkIkSvYzSnD4SKjaqioASjQAPhgjTkRYInh4WoyAbhZKkBW6sug4JEQ2mBBKmEafCEmjYR6+2oADABIsAjuzXReEZDaAOhDdA8Nip2Gc6t8jk1fnF5IlrjJ8Et4P8AK4QUh1X5YqoQcGHP4whJgLpvRC9MzjcbA5S6GCITgQFA3ZRI1Houqk8lUhHdMn3dCcvq-JAEThEYCIOrPLAQv4Ah5dMbc6z2FhIKAo+BgGBIjZZUrgfacdj7dA4vHIbl7EDzX6cEBROrG6BUoA) 页面上面编码
 - 想快速了解 DFS 和 BFS 的异同，可参考 [那些年，我们一起”追“的DFS和BFS \- 掘金](https://juejin.cn/post/7324501285625086015)
 
+**4. 使用 JS 实现一个带并发限制的异步调度器 Scheduler，保证同时运行的任务最多有两个。例如目前有 4 个任务，完成时间分别为，1000ms、500ms、300ms、400ms，那么在该调度器中的执行完成顺序应该为：**
+```2、3、1、4```
+
+参考答案：
+```js
+class Scheduler {
+  constructor(limit) {
+    this.limit = limit; // 同时最大并发任务数
+    this.running = 0; // 当前正在执行的任务数
+    this.queue = []; // 等待执行的任务队列
+  }
+
+  // 添加任务到调度器
+  add(promiseCreator) {
+    return new Promise((resolve, reject) => {
+      // promiseCreator是一个函数，调用它会返回一个Promise
+      const task = this.createTask(promiseCreator, resolve, reject);
+      if (this.running < this.limit) {
+        // 如果当前运行的任务数小于限制，则直接执行
+        task();
+      } else {
+        // 否则，加入队列等待执行
+        this.queue.push(task);
+      }
+    });
+  }
+
+  // 创建一个任务
+  createTask(promiseCreator, resolve, reject) {
+    return () => {
+      this.running++;
+      promiseCreator()
+        .then(resolve)
+        .catch(reject)
+        .finally(() => {
+          this.running--;
+          if (this.queue.length > 0) {
+            // 如果队列中还有任务，取出一个继续执行
+            const task = this.queue.shift();
+            task();
+          }
+        });
+    };
+  }
+}
+
+// 使用示例
+const timeout = (time) => new Promise(resolve => setTimeout(resolve, time));
+const scheduler = new Scheduler(2); // 最大并发数为2
+
+const addTask = (time, order) => {
+  scheduler.add(() => timeout(time)).then(() => console.log(order));
+};
+
+addTask(1000, '1');
+addTask(500, '2');
+addTask(300, '3');
+addTask(400, '4');
+
+// 输出的顺序是：2 3 1 4
+// 一开始，1、2两个任务并行，2先完成，然后3开始执行
+// 3完成后，4开始执行，最后1完成
+```
+
 # 🤡 兼容
 （暂未遇到，先占位后续再补充）
 
