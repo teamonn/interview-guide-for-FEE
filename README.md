@@ -2256,9 +2256,13 @@ const tree = [{
     {
       path: '/xxx'
     }]
+  }, {
+    path: '/ee',
   }]
-}]
-// 最终函数应返回 ["/aa/bb/cc", "/aa/bb/xxx"] 
+}, {
+  path: '/dd',
+}];
+// 最终函数应返回 [ '/aa/bb/cc', '/aa/bb/xxx', '/aa/ee', '/dd' ]
 ```
 题眼：这个其实就是考察 DFS（深度优先遍历），然后将所有叶子节点的 path 收集到一个数组里返回即可。
 
@@ -2275,23 +2279,23 @@ type NodeType = {
  * @param prefix 当前层级所有节点的父级前缀
  * @returns 所有叶子节点的最终 path
  */
-const dfs = (nodes: NodeType[], prefix: String = ''): String[] => {
-  let arr: String = [];
+let res: string = [];
+const dfs = (nodes: NodeType[], prefix: string = ''): string[] => {
+  if (!nodes.length) return;
   for (const treeNode of nodes) {
-    prefix = `${prefix}${treeNode.path}`;
-    if (treeNode.children) {
-      arr.push(...dfs(treeNode.children, prefix));
+    prefix += treeNode.path;
+    if (treeNode.children && treeNode.children.length) {
+      dfs(treeNode.children, prefix);
     } else {
-      arr.push(prefix);
-      prefix = prefix.replace(`${treeNode.path}`, '');
+      res.push(prefix);
     }
+    prefix = prefix.replace(treeNode.path, '');
   }
-  return arr;
 }
 
-const list = dfs(tree);
-console.log(list);
-// 输出 ["/aa/bb/cc", "/aa/bb/xxx"]
+dfs(tree);
+console.log(res);
+// 输出 [ '/aa/bb/cc', '/aa/bb/xxx', '/aa/ee', '/dd' ]
 ```
 
 Tips：
